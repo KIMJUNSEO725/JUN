@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Late Night Bites 🌙</title>
+<style>
+/* Main landing page */
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body{
+  color:#fff;
+  background:linear-gradient(135deg,#0b0913,#1f1734 55%,#090d19);
+}
+#homePage{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(168,85,247,.25),transparent 28%),
+    radial-gradient(circle at 85% 80%,rgba(236,72,153,.18),transparent 30%),
+    linear-gradient(135deg,#0b0913,#1f1734 55%,#090d19);
+}
+.home-card{
+  width:min(780px,100%);padding:48px 32px;text-align:center;
+  border-radius:32px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(18px);
+  box-shadow:0 25px 90px rgba(0,0,0,.4);
+}
+.home-logo{font-size:80px;line-height:1}
+.home-card h1{font-size:clamp(42px,8vw,72px);margin:14px 0 8px}
+.home-subtitle{color:#d8d2e8;font-size:18px;line-height:1.6;margin:0 auto;max-width:600px}
+.home-features{margin:30px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.home-feature{padding:18px 12px;border-radius:18px;background:rgba(255,255,255,.07);color:#e9e4f3}
+.home-feature strong{display:block;font-size:25px;margin-bottom:6px}
+.home-feature span{font-size:14px;color:#c4bdd4}
+.start-home{
+  display:inline-block;margin-top:30px;padding:16px 28px;border:0;border-radius:16px;
+  color:#fff;font-weight:800;font-size:18px;cursor:pointer;
+  background:linear-gradient(90deg,#a855f7,#ec4899);
+  box-shadow:0 12px 30px rgba(168,85,247,.25);transition:.2s;
+}
+.start-home:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.home-note{margin-top:16px;color:#aaa1ba;font-size:13px}
+#appPage{display:none;min-height:100vh}
+
+/* Original recommender app styles */
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: linear-gradient(135deg,#17132b,#31204f 55%,#111827);
+    color: #fff; min-height: 100vh; display:flex; justify-content:center;
+  }
+
+  .welcome {
+    position:fixed; inset:0; z-index:10; display:flex; align-items:center; justify-content:center;
+    padding:24px; text-align:center;
+    background:radial-gradient(circle at 50% 25%, rgba(168,85,247,.28), transparent 38%),
+               linear-gradient(135deg,#0f0b1c,#241739 55%,#0b1020);
+  }
+  .welcome-card {
+    width:min(650px,100%); padding:44px 28px; border-radius:30px;
+    background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15);
+    backdrop-filter:blur(18px); box-shadow:0 25px 90px rgba(0,0,0,.38);
+  }
+  .welcome-icon { font-size:76px; margin-bottom:10px; }
+  .welcome h1 { margin:0 0 10px; font-size:clamp(38px,7vw,64px); }
+  .welcome p { margin:0 auto; max-width:520px; color:#d8d3e8; font-size:17px; line-height:1.7; }
+  .country-select {
+    width:min(360px,100%); margin:22px auto 0; display:block; padding:14px 16px;
+    border-radius:14px; border:1px solid #62547e; background:#211a38; color:#fff;
+    font-size:16px; outline:none;
+  }
+  .start-btn {
+    max-width:320px; margin:26px auto 0; display:block; padding:16px 22px; border:0;
+    border-radius:16px; background:linear-gradient(90deg,#a855f7,#ec4899); color:#fff;
+    font-size:18px; font-weight:800; cursor:pointer; transition:.2s;
+  }
+  .start-btn:hover { transform:translateY(-2px) scale(1.01); filter:brightness(1.08); }
+
+  .app { width:min(920px,100%); padding:28px 18px 50px; }
+  .hero { text-align:center; padding:30px 10px 24px; }
+  .moon { font-size:54px; }
+  h1 { margin:8px 0 8px; font-size:clamp(32px,6vw,52px); }
+  .subtitle { color:#d8d3e8; margin:0; font-size:16px; }
+  .panel {
+    background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.14);
+    backdrop-filter:blur(14px); border-radius:24px; padding:22px;
+    box-shadow:0 18px 60px rgba(0,0,0,.25);
+  }
+  .filters { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  label { font-size:13px; color:#c9c3da; display:block; margin-bottom:7px; }
+  select {
+    width:100%; padding:13px; border-radius:13px; border:1px solid #51486c;
+    background:#211a38; color:white; font-size:15px; outline:none;
+  }
+  button {
+    width:100%; margin-top:16px; padding:15px; border:0; border-radius:14px;
+    background:linear-gradient(90deg,#a855f7,#ec4899); color:#fff;
+    font-size:17px; font-weight:800; cursor:pointer; transition:.2s;
+  }
+  button:hover { transform:translateY(-2px); filter:brightness(1.08); }
+  .result { display:none; margin-top:18px; padding:22px; border-radius:20px; background:#fff; color:#211a38; }
+  .result.show { display:block; animation:pop .35s ease; }
+  @keyframes pop { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+  .food { font-size:40px; }
+  .result h2 { margin:4px 0; font-size:30px; }
+  .reason { color:#625a73; margin:7px 0 14px; }
+  .tags { display:flex; flex-wrap:wrap; gap:7px; }
+  .tag { background:#f1e8ff; color:#7136a8; border-radius:999px; padding:6px 10px; font-size:13px; font-weight:700; }
+  .alt { margin-top:15px; color:#625a73; font-size:14px; }
+  @media(max-width:650px){ .filters{grid-template-columns:1fr;} .panel{padding:17px;} }
+
+</style>
+</head>
+<body>
+
+<section id="homePage">
+  <main class="home-card">
+    <div class="home-logo">🌙🍜</div>
+    <h1>Late Night Bites</h1>
+    <p class="home-subtitle">
+      세계 각국의 야식을 찾아보고,<br>
+      나라와 예산에 맞는 메뉴를 추천받아보세요.
+    </p>
+    <section class="home-features">
+      <div class="home-feature"><strong>🌎</strong><span>나라별 음식</span></div>
+      <div class="home-feature"><strong>💰</strong><span>예산별 추천</span></div>
+      <div class="home-feature"><strong>🍽️</strong><span>다양한 야식</span></div>
+    </section>
+    <button class="start-home" onclick="openApp()">🍜 야식 추천 시작하기</button>
+    <div class="home-note">한 페이지에서 바로 야식을 찾아보세요.</div>
+  </main>
+</section>
+
+<section id="appPage">
+
+
+<div id="welcome" class="welcome">
+  <div class="welcome-card">
+    <div class="welcome-icon">🌙</div>
+    <h1>야식 추천</h1>
+    <p>
+      오늘 밤 뭘 먹을지 고민된다면 잘 찾아왔어요.<br>
+      먼저 나라를 선택하고, 그 나라의 야식을 추천받아보세요!
+    </p>
+    <select id="country" class="country-select">
+      <option value="korea">🇰🇷 대한민국</option>
+      <option value="japan">🇯🇵 일본</option>
+      <option value="usa">🇺🇸 미국</option>
+      <option value="italy">🇮🇹 이탈리아</option>
+      <option value="mexico">🇲🇽 멕시코</option>
+      <option value="china">🇨🇳 중국</option>
+      <option value="thailand">🇹🇭 태국</option>
+      <option value="india">🇮🇳 인도</option>
+      <option value="vietnam">🇻🇳 베트남</option>
+      <option value="uk">🇬🇧 영국</option>
+    </select>
+    <select id="welcomeBudget" class="country-select">
+      <option value="1000">💰 1,000원</option>
+      <option value="10000">💰 10,000원</option>
+      <option value="100000">💰 100,000원</option>
+      <option value="1000000">💰 1,000,000원</option>
+      <option value="10000000">💰 10,000,000원</option>
+      <option value="100000000">💰 100,000,000원</option>
+      <option value="1000000000">💰 1,000,000,000원</option>
+      <option value="etc">💰 그 이상</option>
+    </select>
+    <button class="start-btn" onclick="startApp()">🍜 야식 추천 시작하기</button>
+  </div>
+</div>
+
+<main class="app">
+  <section class="hero">
+    <div class="moon">🌙</div>
+    <h1>오늘 밤 뭐 먹지?</h1>
+    <p class="subtitle">나라와 예산을 고르면 그 예산에 맞는 야식을 추천해드려요.</p>
+  </section>
+
+  <section class="panel">
+    <div class="filters">
+      <div style="grid-column:1/-1;">
+        <label for="selectedCountry">선택한 나라</label>
+        <select id="selectedCountry" onchange="syncCountry()">
+          <option value="korea">🇰🇷 대한민국</option>
+          <option value="japan">🇯🇵 일본</option>
+          <option value="usa">🇺🇸 미국</option>
+          <option value="italy">🇮🇹 이탈리아</option>
+          <option value="mexico">🇲🇽 멕시코</option>
+          <option value="china">🇨🇳 중국</option>
+          <option value="thailand">🇹🇭 태국</option>
+          <option value="india">🇮🇳 인도</option>
+          <option value="vietnam">🇻🇳 베트남</option>
+          <option value="uk">🇬🇧 영국</option>
+        </select>
+      </div>
+      <div>
+        <label for="mood">지금 기분</label>
+        <select id="mood">
+          <option value="hungry">배고파요</option>
+          <option value="stress">스트레스 받아요</option>
+          <option value="happy">신나요</option>
+          <option value="calm">편하게 먹고 싶어요</option>
+        </select>
+      </div>
+      <div>
+        <label for="style">먹고 싶은 스타일</label>
+        <select id="style">
+          <option value="korean">한식</option>
+          <option value="spicy">매운맛</option>
+          <option value="western">양식</option>
+          <option value="snack">간단한 간식</option>
+        </select>
+      </div>
+      <div>
+        <label for="budget">💰 예산 기준</label>
+        <select id="budget">
+          <option value="low">1,000원 미만</option>
+          <option value="mid">1~2만원</option>
+          <option value="high">2만원 이상</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="recommend()">🎲 야식 추천받기</button>
+
+    <div id="result" class="result">
+      <div id="food" class="food"></div>
+      <h2 id="name"></h2>
+      <p id="reason" class="reason"></p>
+      <div id="tags" class="tags"></div>
+      <div id="alt" class="alt"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+
+
+function syncCountry(){
+  const a = document.getElementById("country");
+  const b = document.getElementById("selectedCountry");
+  if(a && b) b.value = a.value;
+}
+
+function startApp(){
+  const selected = document.getElementById("country").value;
+  const selectedBudget = document.getElementById("welcomeBudget").value;
+  document.getElementById("selectedCountry").value = selected;
+  document.getElementById("budget").value = selectedBudget;
+  const welcome = document.getElementById("welcome");
+  welcome.style.opacity = "0";
+  welcome.style.transition = "opacity .3s ease";
+  setTimeout(() => welcome.remove(), 300);
+}
+const foods = [
+  {name:"치킨",emoji:"🍗",country:"korea",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"든든하고 실패하기 어려운 대표 야식이에요."},
+  {name:"떡볶이",emoji:"🌶️",country:"korea",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"매콤달콤하게 기분 전환하기 좋아요."},
+  {name:"김치볶음밥",emoji:"🍳",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["low", "mid"],reason:"간단하고 든든한 한국식 한 끼예요."},
+  {name:"라면",emoji:"🍜",country:"korea",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"늦은 밤 간단하게 먹기 좋은 클래식이에요."},
+  {name:"족발",emoji:"🍖",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"푸짐하게 즐기기 좋은 메뉴예요."},
+  {name:"보쌈",emoji:"🥬",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"고기와 쌈을 함께 즐길 수 있어요."},
+  {name:"찜닭",emoji:"🍗",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"달콤짭짤한 양념과 당면이 잘 어울려요."},
+  {name:"닭발",emoji:"🌶️",country:"korea",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"화끈한 매운맛이 당길 때 좋아요."},
+  {name:"순대",emoji:"🌭",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"떡볶이와 함께 먹기 좋은 간식이에요."},
+  {name:"오뎅",emoji:"🍢",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"따뜻한 국물이 생각날 때 좋아요."},
+  {name:"김밥",emoji:"🍙",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부담 없이 간단하게 먹기 좋아요."},
+  {name:"제육볶음",emoji:"🥩",country:"korea",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"매콤하고 밥과 잘 어울려요."},
+  {name:"김치찌개",emoji:"🍲",country:"korea",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"얼큰하고 따뜻한 국물이 생각날 때 좋아요."},
+  {name:"부대찌개",emoji:"🍲",country:"korea",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"햄과 라면까지 푸짐하게 먹을 수 있어요."},
+  {name:"김치전",emoji:"🥞",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 짭짤한 맛이 야식으로 좋아요."},
+  {name:"감자전",emoji:"🥔",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"담백하고 바삭하게 즐길 수 있어요."},
+  {name:"닭꼬치",emoji:"🍢",country:"korea",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"한 꼬치씩 먹기 편한 야식이에요."},
+  {name:"떡꼬치",emoji:"🍡",country:"korea",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤매콤한 소스가 잘 어울려요."},
+  {name:"콘치즈",emoji:"🌽",country:"korea",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤고소하게 즐기기 좋아요."},
+  {name:"계란찜",emoji:"🥚",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 따뜻한 야식이에요."},
+  {name:"주먹밥",emoji:"🍙",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"간단하지만 은근히 든든해요."},
+  {name:"참치마요덮밥",emoji:"🍚",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고소하고 짭짤해서 한 끼로 좋아요."},
+  {name:"떡갈비",emoji:"🥩",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤짭짤하고 고기 맛이 진해요."},
+  {name:"닭죽",emoji:"🥣",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"편안하게 먹고 싶은 밤에 좋아요."},
+  {name:"간장계란밥",emoji:"🍚",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"재료가 간단한 초간단 야식이에요."},
+  {name:"비빔면",emoji:"🍜",country:"korea",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤매콤한 맛이 입맛을 살려줘요."},
+  {name:"만두",emoji:"🥟",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["low", "mid"],reason:"구워도 찌어도 맛있는 만능 야식이에요."},
+  {name:"어묵우동",emoji:"🍲",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻한 국물과 면을 함께 즐겨요."},
+  {name:"닭볶음탕",emoji:"🍗",country:"korea",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"매콤하고 푸짐한 메뉴예요."},
+  {name:"감자튀김",emoji:"🍟",country:"korea",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"간단하게 집어먹기 좋아요."},
+  {name:"라멘",emoji:"🍜",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻한 국물과 면이 어울리는 대표 메뉴예요."},
+  {name:"타코야키",emoji:"🐙",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"한입 크기로 간편하게 즐겨요."},
+  {name:"오코노미야키",emoji:"🥞",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"푸짐하고 고소한 일본식 야식이에요."},
+  {name:"규동",emoji:"🍚",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"든든하게 배를 채우기 좋아요."},
+  {name:"야키소바",emoji:"🍝",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"짭짤한 볶음면이 야식과 잘 어울려요."},
+  {name:"가라아게",emoji:"🍗",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 일본식 닭튀김이에요."},
+  {name:"교자",emoji:"🥟",country:"japan",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"한입씩 먹기 좋은 만두 야식이에요."},
+  {name:"우동",emoji:"🍲",country:"japan",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 편안한 국물 메뉴예요."},
+  {name:"카레라이스",emoji:"🍛",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"부드럽고 진한 맛으로 든든해요."},
+  {name:"오야코동",emoji:"🍳",country:"japan",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"닭고기와 계란이 부드럽게 어울려요."},
+  {name:"텐동",emoji:"🍤",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭한 튀김을 밥과 함께 즐겨요."},
+  {name:"돈카츠",emoji:"🥩",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭하고 든든한 메뉴예요."},
+  {name:"야키토리",emoji:"🍢",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"꼬치로 간편하게 즐기기 좋아요."},
+  {name:"소바",emoji:"🍜",country:"japan",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍고 깔끔하게 먹고 싶을 때 좋아요."},
+  {name:"오니기리",emoji:"🍙",country:"japan",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"간단하게 먹기 좋은 일본식 주먹밥이에요."},
+  {name:"미소라멘",emoji:"🍜",country:"japan",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"구수한 국물이 편안해요."},
+  {name:"츠케멘",emoji:"🍜",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진한 소스에 면을 찍어 먹는 메뉴예요."},
+  {name:"에비후라이",emoji:"🍤",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 새우튀김이 매력적이에요."},
+  {name:"멘치카츠",emoji:"🥩",country:"japan",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고기와 튀김의 조합으로 든든해요."},
+  {name:"푸딩",emoji:"🍮",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤한 디저트 야식으로 좋아요."},
+  {name:"피자",emoji:"🍕",country:"usa",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"나눠 먹기 좋은 대표 야식이에요."},
+  {name:"치즈버거",emoji:"🍔",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"빠르고 든든하게 먹기 좋아요."},
+  {name:"치킨 윙",emoji:"🍗",country:"usa",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"매콤하고 짭짤한 야식이에요."},
+  {name:"나초",emoji:"🧀",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"영화 보면서 간단하게 먹기 좋아요."},
+  {name:"핫도그",emoji:"🌭",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"간편하면서도 든든해요."},
+  {name:"맥앤치즈",emoji:"🧀",country:"usa",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"고소하고 진한 맛이 좋아요."},
+  {name:"바비큐 립",emoji:"🍖",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"푸짐하고 진한 풍미를 즐길 수 있어요."},
+  {name:"칠리 프라이",emoji:"🍟",country:"usa",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"감자튀김에 매콤한 칠리를 더해요."},
+  {name:"치즈 프라이",emoji:"🍟",country:"usa",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"고소한 치즈와 감자의 조합이에요."},
+  {name:"팬케이크",emoji:"🥞",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하게 늦은 밤을 마무리해요."},
+  {name:"그릴드 치즈",emoji:"🥪",country:"usa",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"치즈가 녹은 따뜻한 샌드위치예요."},
+  {name:"버펄로 치킨",emoji:"🍗",country:"usa",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤매콤한 소스가 특징이에요."},
+  {name:"콘도그",emoji:"🌭",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 간식으로 좋아요."},
+  {name:"클램 차우더",emoji:"🍲",country:"usa",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 부드러운 수프예요."},
+  {name:"미트볼 서브",emoji:"🥪",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"든든한 샌드위치 야식이에요."},
+  {name:"브라우니",emoji:"🍫",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"진한 초콜릿 디저트예요."},
+  {name:"도넛",emoji:"🍩",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"가볍게 달달한 야식으로 좋아요."},
+  {name:"밀크셰이크",emoji:"🥤",country:"usa",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 시원하게 즐겨요."},
+  {name:"애플파이",emoji:"🥧",country:"usa",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 따뜻한 디저트예요."},
+  {name:"퀘사디야",emoji:"🫓",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"치즈와 토르티야로 든든해요."},
+  {name:"마르게리타 피자",emoji:"🍕",country:"italy",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"심플한 토마토와 치즈의 조합이에요."},
+  {name:"카르보나라",emoji:"🍝",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"부드럽고 진한 맛이 매력적이에요."},
+  {name:"라자냐",emoji:"🥘",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"층층이 쌓인 풍부한 맛으로 든든해요."},
+  {name:"아란치니",emoji:"🍘",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 이탈리아식 주먹밥이에요."},
+  {name:"티라미수",emoji:"🍰",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 디저트 야식으로 좋아요."},
+  {name:"페퍼로니 피자",emoji:"🍕",country:"italy",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"짭짤하고 진한 피자 맛을 즐겨요."},
+  {name:"볼로네제 파스타",emoji:"🍝",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고기소스가 진해 든든해요."},
+  {name:"알리오 올리오",emoji:"🍝",country:"italy",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"마늘과 올리브오일의 깔끔한 맛이에요."},
+  {name:"라비올리",emoji:"🥟",country:"italy",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"속이 꽉 찬 이탈리아식 파스타예요."},
+  {name:"뇨키",emoji:"🥔",country:"italy",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 쫀득한 식감이 특징이에요."},
+  {name:"브루스케타",emoji:"🥖",country:"italy",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"바삭한 빵 위에 토핑을 올려 먹어요."},
+  {name:"판제로티",emoji:"🥟",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"피자 속을 접어 튀긴 간식이에요."},
+  {name:"포카치아",emoji:"🥖",country:"italy",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"담백한 빵 야식으로 좋아요."},
+  {name:"파니니",emoji:"🥪",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻하게 눌러 구운 샌드위치예요."},
+  {name:"젤라토",emoji:"🍨",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"부드럽고 달콤한 디저트예요."},
+  {name:"카놀리",emoji:"🥐",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 껍질과 달콤한 크림이 어울려요."},
+  {name:"판나코타",emoji:"🍮",country:"italy",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드러운 이탈리아 디저트예요."},
+  {name:"리조또",emoji:"🍚",country:"italy",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"크리미하고 따뜻한 한 끼예요."},
+  {name:"라비올리 토마토소스",emoji:"🥟",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"풍미가 깊고 든든해요."},
+  {name:"파스타 샐러드",emoji:"🥗",country:"italy",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍게 즐기기 좋아요."},
+  {name:"타코",emoji:"🌮",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"매콤하고 다채로운 대표 야식이에요."},
+  {name:"케사디야",emoji:"🫓",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"치즈와 토르티야가 든든해요."},
+  {name:"나초 & 살사",emoji:"🧀",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"간단하게 집어먹기 좋아요."},
+  {name:"부리토",emoji:"🌯",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"한 끼로 충분히 든든해요."},
+  {name:"추로스",emoji:"🥨",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤한 디저트 야식이에요."},
+  {name:"엔칠라다",emoji:"🌯",country:"mexico",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"소스와 치즈가 풍부한 메뉴예요."},
+  {name:"퀘사비리아",emoji:"🌮",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"치즈가 가득한 진한 타코예요."},
+  {name:"과카몰리",emoji:"🥑",country:"mexico",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"아보카도의 고소함을 가볍게 즐겨요."},
+  {name:"엘로테",emoji:"🌽",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"옥수수에 풍미를 더한 스트리트 푸드예요."},
+  {name:"토스타다",emoji:"🌮",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 토르티야 위에 토핑을 올려요."},
+  {name:"치미창가",emoji:"🌯",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭하게 튀긴 부리토 스타일 메뉴예요."},
+  {name:"몰레 치킨",emoji:"🍗",country:"mexico",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진한 소스와 치킨의 조합이에요."},
+  {name:"소페스",emoji:"🫓",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"작은 토르티야 위에 다양한 토핑을 올려요."},
+  {name:"타말레스",emoji:"🌽",country:"mexico",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"옥수수 반죽으로 만든 따뜻한 음식이에요."},
+  {name:"멕시칸 라이스",emoji:"🍚",country:"mexico",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향긋하고 든든한 볶음밥 스타일이에요."},
+  {name:"플라우타",emoji:"🌯",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하게 튀긴 롤 형태의 간식이에요."},
+  {name:"초코 추로스",emoji:"🍫",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤한 초콜릿 풍미의 디저트예요."},
+  {name:"소파 데 토르티야",emoji:"🍲",country:"mexico",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 매콤한 수프예요."},
+  {name:"칸디드 페퍼",emoji:"🌶️",country:"mexico",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"매운맛을 즐기고 싶을 때 좋아요."},
+  {name:"멕시칸 핫도그",emoji:"🌭",country:"mexico",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"토핑이 풍부한 길거리 야식이에요."},
+  {name:"딤섬",emoji:"🥟",country:"china",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"다양하게 골라 먹는 재미가 있어요."},
+  {name:"볶음면",emoji:"🍜",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"짭짤하고 볶은 풍미가 강해요."},
+  {name:"탕수육",emoji:"🥩",country:"china",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 달콤새콤해요."},
+  {name:"샤오롱바오",emoji:"🥟",country:"china",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻한 육즙을 즐길 수 있어요."},
+  {name:"마라샹궈",emoji:"🌶️",country:"china",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"얼얼하고 매콤한 맛이 당길 때 좋아요."},
+  {name:"마라탕",emoji:"🌶️",country:"china",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"재료를 골라 먹는 재미가 있어요."},
+  {name:"꿔바로우",emoji:"🥩",country:"china",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"새콤달콤하고 바삭한 메뉴예요."},
+  {name:"볶음밥",emoji:"🍚",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고슬고슬하고 든든해요."},
+  {name:"짜장면",emoji:"🍜",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진한 춘장 소스와 면의 조합이에요."},
+  {name:"짬뽕",emoji:"🍜",country:"china",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"얼큰한 국물과 해산물이 어울려요."},
+  {name:"군만두",emoji:"🥟",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"바삭한 만두피가 매력적이에요."},
+  {name:"완탕면",emoji:"🍜",country:"china",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"깔끔한 국물과 만두가 잘 어울려요."},
+  {name:"차오미엔",emoji:"🍜",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"중국식 볶음면으로 든든해요."},
+  {name:"양꼬치",emoji:"🍢",country:"china",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"향신료 풍미가 강한 꼬치 야식이에요."},
+  {name:"유린기",emoji:"🍗",country:"china",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 닭고기와 새콤한 소스가 좋아요."},
+  {name:"동파육",emoji:"🍖",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"부드러운 돼지고기를 진한 소스로 즐겨요."},
+  {name:"춘권",emoji:"🥠",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"바삭하게 즐기는 대표 간식이에요."},
+  {name:"월병",emoji:"🥮",country:"china",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤한 중국식 디저트예요."},
+  {name:"에그타르트",emoji:"🥧",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"부드럽고 달콤한 디저트예요."},
+  {name:"탕후루",emoji:"🍓",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 설탕 코팅의 과일 간식이에요."},
+  {name:"팟타이",emoji:"🍜",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"새콤달콤하고 고소한 볶음면이에요."},
+  {name:"똠얌",emoji:"🍲",country:"thailand",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤하고 매콤한 국물이 입맛을 깨워요."},
+  {name:"카오팟",emoji:"🍚",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"편하게 즐길 수 있는 태국식 볶음밥이에요."},
+  {name:"망고 찹쌀밥",emoji:"🥭",country:"thailand",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 태국식 디저트예요."},
+  {name:"팟카오파오",emoji:"🍳",country:"thailand",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바질과 매콤한 고기가 잘 어울려요."},
+  {name:"그린커리",emoji:"🍛",country:"thailand",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향긋하고 크리미한 커리예요."},
+  {name:"레드커리",emoji:"🍛",country:"thailand",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"진하고 매콤한 소스가 특징이에요."},
+  {name:"뿌팟퐁커리",emoji:"🦀",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"게와 커리의 풍부한 조합이에요."},
+  {name:"쏨땀",emoji:"🥗",country:"thailand",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤매콤하게 입맛을 살려줘요."},
+  {name:"카오만까이",emoji:"🍚",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"닭고기와 향긋한 밥이 잘 어울려요."},
+  {name:"무삥",emoji:"🍢",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤짭짤한 돼지고기 꼬치예요."},
+  {name:"싸테",emoji:"🍢",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"구운 꼬치에 소스를 곁들여요."},
+  {name:"로띠",emoji:"🥞",country:"thailand",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 달콤한 길거리 간식이에요."},
+  {name:"망고 스무디",emoji:"🥭",country:"thailand",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 시원하게 즐겨요."},
+  {name:"코코넛 아이스크림",emoji:"🍨",country:"thailand",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"고소하고 시원한 디저트예요."},
+  {name:"카오니아오 무앙",emoji:"🥭",country:"thailand",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"망고와 찹쌀의 달콤한 조합이에요."},
+  {name:"팟씨유",emoji:"🍜",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"간장 풍미의 볶음면이에요."},
+  {name:"치킨 사테",emoji:"🍢",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"향신료가 배인 구운 꼬치예요."},
+  {name:"똠카가이",emoji:"🍲",country:"thailand",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"코코넛 밀크의 부드러운 국물이에요."},
+  {name:"크리스피 포크",emoji:"🥩",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭한 돼지고기가 든든해요."},
+  {name:"버터 치킨",emoji:"🍛",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향신료와 부드러운 소스가 어울려요."},
+  {name:"사모사",emoji:"🥟",country:"india",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"바삭한 껍질과 향신료 풍미가 좋아요."},
+  {name:"난 & 커리",emoji:"🫓",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻한 난과 진한 커리를 즐겨요."},
+  {name:"치킨 티카",emoji:"🍗",country:"india",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"향신료 풍미가 강한 구운 치킨이에요."},
+  {name:"망고 라씨",emoji:"🥭",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하고 부드러운 인도식 음료예요."},
+  {name:"비리야니",emoji:"🍚",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향긋한 향신료 밥으로 아주 든든해요."},
+  {name:"티카 마살라",emoji:"🍛",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진하고 크리미한 소스가 특징이에요."},
+  {name:"팔락 파니르",emoji:"🥬",country:"india",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"시금치와 치즈가 어울려요."},
+  {name:"알루 고비",emoji:"🥔",country:"india",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"감자와 콜리플라워를 향신료와 볶아요."},
+  {name:"파코라",emoji:"🥦",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 인도식 튀김 간식이에요."},
+  {name:"바다 파브",emoji:"🥪",country:"india",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"매콤한 감자 패티 샌드위치예요."},
+  {name:"도사",emoji:"🥞",country:"india",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"얇고 바삭한 인도식 팬케이크예요."},
+  {name:"차파티",emoji:"🫓",country:"india",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"담백한 빵과 커리를 함께 먹어요."},
+  {name:"치킨 코르마",emoji:"🍛",country:"india",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 고소한 커리예요."},
+  {name:"탄두리 치킨",emoji:"🍗",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향신료 풍미가 강한 구운 치킨이에요."},
+  {name:"굴랍 자문",emoji:"🍡",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 인도식 디저트예요."},
+  {name:"잘레비",emoji:"🥨",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 달콤한 디저트예요."},
+  {name:"라스굴라",emoji:"🍡",country:"india",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드러운 시럽 디저트예요."},
+  {name:"마살라 차이",emoji:"☕",country:"india",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"향신료가 들어간 따뜻한 차예요."},
+  {name:"파니 푸리",emoji:"🥟",country:"india",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"한입에 즐기는 바삭한 간식이에요."},
+  {name:"반미",emoji:"🥖",country:"vietnam",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭한 빵과 다양한 속재료가 어울려요."},
+  {name:"쌀국수",emoji:"🍜",country:"vietnam",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 깔끔한 국물 야식이에요."},
+  {name:"분짜",emoji:"🍜",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"새콤달콤한 소스와 고기가 잘 어울려요."},
+  {name:"월남쌈",emoji:"🥬",country:"vietnam",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍게 여러 재료를 즐기기 좋아요."},
+  {name:"반쎄오",emoji:"🥞",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 베트남식 부침 요리예요."},
+  {name:"분보후에",emoji:"🍜",country:"vietnam",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"매콤한 국물과 면이 특징이에요."},
+  {name:"분팃느엉",emoji:"🍜",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"구운 고기와 쌀국수의 조합이에요."},
+  {name:"껌땀",emoji:"🍚",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"돼지고기와 밥으로 든든해요."},
+  {name:"고이꾸온",emoji:"🥬",country:"vietnam",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"신선한 재료를 가볍게 즐겨요."},
+  {name:"반꾸온",emoji:"🥞",country:"vietnam",styles:["calm", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"얇은 쌀피에 속을 넣은 메뉴예요."},
+  {name:"짜조",emoji:"🥟",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하게 튀긴 베트남식 스프링롤이에요."},
+  {name:"닭고기 쌀국수",emoji:"🍜",country:"vietnam",styles:["calm", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"담백한 국물로 편하게 먹어요."},
+  {name:"새우 반미",emoji:"🥖",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 빵에 새우를 더해요."},
+  {name:"코코넛 커리",emoji:"🍛",country:"vietnam",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 향긋한 커리예요."},
+  {name:"베트남식 볶음밥",emoji:"🍚",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고슬고슬한 밥으로 든든해요."},
+  {name:"연유 커피",emoji:"☕",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하고 진한 베트남식 커피예요."},
+  {name:"에그커피",emoji:"☕",country:"vietnam",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 달콤한 커피 디저트예요."},
+  {name:"체",emoji:"🥣",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 베트남식 디저트예요."},
+  {name:"망고 스무디",emoji:"🥭",country:"vietnam",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 시원하게 즐겨요."},
+  {name:"바인플랑",emoji:"🍮",country:"vietnam",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드러운 베트남식 디저트예요."},
+  {name:"피시 앤 칩스",emoji:"🐟",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"영국을 대표하는 든든한 메뉴예요."},
+  {name:"소시지 롤",emoji:"🥐",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"간단하게 집어먹기 좋은 간식이에요."},
+  {name:"재킷 포테이토",emoji:"🥔",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻하고 든든한 감자 메뉴예요."},
+  {name:"셰퍼드 파이",emoji:"🥧",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"포근하고 든든한 영국식 메뉴예요."},
+  {name:"스콘",emoji:"🥐",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"차와 함께 즐기기 좋은 간식이에요."},
+  {name:"뱅어스 앤 매시",emoji:"🌭",country:"uk",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"소시지와 으깬 감자의 조합이에요."},
+  {name:"코티지 파이",emoji:"🥧",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고기와 감자를 함께 즐겨요."},
+  {name:"콘ish 페이스트",emoji:"🥟",country:"uk",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"든든한 영국식 페이스트리예요."},
+  {name:"토드 인 더 홀",emoji:"🥞",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"소시지와 반죽을 함께 구운 메뉴예요."},
+  {name:"웰시 레어빗",emoji:"🧀",country:"uk",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"치즈 토핑이 올라간 영국식 토스트예요."},
+  {name:"플라우맨즈 런치",emoji:"🥪",country:"uk",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"치즈와 빵을 가볍게 즐겨요."},
+  {name:"크럼펫",emoji:"🥞",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"버터와 함께 먹는 영국식 간식이에요."},
+  {name:"버터드 티케이크",emoji:"🥐",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하고 부드러운 베이커리예요."},
+  {name:"브레드 앤 버터 푸딩",emoji:"🍮",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"따뜻하고 달콤한 디저트예요."},
+  {name:"트라이플",emoji:"🍰",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"층층이 쌓인 달콤한 디저트예요."},
+  {name:"이튼 메스",emoji:"🍓",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"딸기와 크림을 가볍게 즐겨요."},
+  {name:"애플 크럼블",emoji:"🍎",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻한 사과 디저트예요."},
+  {name:"스카치 에그",emoji:"🥚",country:"uk",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"계란을 고기와 튀겨 만든 간식이에요."},
+  {name:"파스티",emoji:"🥟",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"속이 꽉 찬 영국식 파이예요."},
+  {name:"잉글리시 머핀",emoji:"🥯",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍게 토핑과 함께 즐겨요."}
+];
+
+function recommend(){
+  const mood=document.getElementById("mood").value;
+  const style=document.getElementById("style").value;
+  const budget=document.getElementById("budget").value;
+  const country=document.getElementById("selectedCountry").value;
+
+  const countryFoods = foods.filter(f=>f.country===country);
+  const budgetMap = {
+    "1000":"low",
+    "10000":"mid",
+    "100000":"high",
+    "1000000":"high",
+    "10000000":"high",
+    "100000000":"high",
+    "1000000000":"high",
+    "etc":"high"
+  };
+  const budgetTier = budgetMap[budget] || "high";
+  const budgetFoods = countryFoods.filter(f=>f.budgets.includes(budgetTier));
+  const pool = budgetFoods.length ? budgetFoods : countryFoods;
+
+  let scored=pool.map(f=>{
+    let score=0;
+    if(f.moods.includes(mood)) score+=3;
+    if(f.styles.includes(style)) score+=4;
+    if(f.budgets.includes(budgetTier)) score+=5;
+    return {...f,score};
+  }).sort((a,b)=>b.score-a.score);
+
+  const topScore=scored[0].score;
+  const candidates=scored.filter(f=>f.score===topScore);
+  const pick=candidates[Math.floor(Math.random()*candidates.length)];
+
+  const budgetNames={"1000":"1,000원","10000":"10,000원","100000":"100,000원","1000000":"1,000,000원","10000000":"10,000,000원","100000000":"100,000,000원","1000000000":"1,000,000,000원","etc":"그 이상"};
+  const countryNames={korea:"대한민국",japan:"일본",usa:"미국",italy:"이탈리아",mexico:"멕시코",china:"중국",thailand:"태국",india:"인도",vietnam:"베트남",uk:"영국"};
+  document.getElementById("food").textContent=pick.emoji;
+  document.getElementById("name").textContent=pick.name + " · " + countryNames[country];
+  document.getElementById("reason").textContent=pick.reason + " · 선택 예산: " + budgetNames[budget];
+  document.getElementById("tags").innerHTML =
+    `<span class="tag">${budget==="low"?"가성비":budget==="mid"?"적당한 가격":"푸짐하게"}</span>
+     <span class="tag">${style==="spicy"?"매콤":style==="korean"?"한식":style==="western"?"양식":"간단하게"}</span>
+     <span class="tag">오늘의 추천</span>`;
+
+  const alternatives=scored.filter(f=>f.name!==pick.name).slice(0,3).map(f=>f.name).join(" · ");
+  document.getElementById("alt").textContent="다른 후보: "+alternatives;
+  document.getElementById("result").classList.add("show");
+}
+</script>
+
+</section>
+
+<script>
+function openApp(){
+  document.getElementById("homePage").style.display="none";
+  document.getElementById("appPage").style.display="block";
+}
+
+
+
+function syncCountry(){
+  const a = document.getElementById("country");
+  const b = document.getElementById("selectedCountry");
+  if(a && b) b.value = a.value;
+}
+
+function startApp(){
+  const selected = document.getElementById("country").value;
+  const selectedBudget = document.getElementById("welcomeBudget").value;
+  document.getElementById("selectedCountry").value = selected;
+  document.getElementById("budget").value = selectedBudget;
+  const welcome = document.getElementById("welcome");
+  welcome.style.opacity = "0";
+  welcome.style.transition = "opacity .3s ease";
+  setTimeout(() => welcome.remove(), 300);
+}
+const foods = [
+  {name:"치킨",emoji:"🍗",country:"korea",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"든든하고 실패하기 어려운 대표 야식이에요."},
+  {name:"떡볶이",emoji:"🌶️",country:"korea",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"매콤달콤하게 기분 전환하기 좋아요."},
+  {name:"김치볶음밥",emoji:"🍳",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["low", "mid"],reason:"간단하고 든든한 한국식 한 끼예요."},
+  {name:"라면",emoji:"🍜",country:"korea",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"늦은 밤 간단하게 먹기 좋은 클래식이에요."},
+  {name:"족발",emoji:"🍖",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"푸짐하게 즐기기 좋은 메뉴예요."},
+  {name:"보쌈",emoji:"🥬",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"고기와 쌈을 함께 즐길 수 있어요."},
+  {name:"찜닭",emoji:"🍗",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"달콤짭짤한 양념과 당면이 잘 어울려요."},
+  {name:"닭발",emoji:"🌶️",country:"korea",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"화끈한 매운맛이 당길 때 좋아요."},
+  {name:"순대",emoji:"🌭",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"떡볶이와 함께 먹기 좋은 간식이에요."},
+  {name:"오뎅",emoji:"🍢",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"따뜻한 국물이 생각날 때 좋아요."},
+  {name:"김밥",emoji:"🍙",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부담 없이 간단하게 먹기 좋아요."},
+  {name:"제육볶음",emoji:"🥩",country:"korea",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"매콤하고 밥과 잘 어울려요."},
+  {name:"김치찌개",emoji:"🍲",country:"korea",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"얼큰하고 따뜻한 국물이 생각날 때 좋아요."},
+  {name:"부대찌개",emoji:"🍲",country:"korea",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"햄과 라면까지 푸짐하게 먹을 수 있어요."},
+  {name:"김치전",emoji:"🥞",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 짭짤한 맛이 야식으로 좋아요."},
+  {name:"감자전",emoji:"🥔",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"담백하고 바삭하게 즐길 수 있어요."},
+  {name:"닭꼬치",emoji:"🍢",country:"korea",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"한 꼬치씩 먹기 편한 야식이에요."},
+  {name:"떡꼬치",emoji:"🍡",country:"korea",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤매콤한 소스가 잘 어울려요."},
+  {name:"콘치즈",emoji:"🌽",country:"korea",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤고소하게 즐기기 좋아요."},
+  {name:"계란찜",emoji:"🥚",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 따뜻한 야식이에요."},
+  {name:"주먹밥",emoji:"🍙",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"간단하지만 은근히 든든해요."},
+  {name:"참치마요덮밥",emoji:"🍚",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고소하고 짭짤해서 한 끼로 좋아요."},
+  {name:"떡갈비",emoji:"🥩",country:"korea",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤짭짤하고 고기 맛이 진해요."},
+  {name:"닭죽",emoji:"🥣",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"편안하게 먹고 싶은 밤에 좋아요."},
+  {name:"간장계란밥",emoji:"🍚",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"재료가 간단한 초간단 야식이에요."},
+  {name:"비빔면",emoji:"🍜",country:"korea",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤매콤한 맛이 입맛을 살려줘요."},
+  {name:"만두",emoji:"🥟",country:"korea",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["low", "mid"],reason:"구워도 찌어도 맛있는 만능 야식이에요."},
+  {name:"어묵우동",emoji:"🍲",country:"korea",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻한 국물과 면을 함께 즐겨요."},
+  {name:"닭볶음탕",emoji:"🍗",country:"korea",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"매콤하고 푸짐한 메뉴예요."},
+  {name:"감자튀김",emoji:"🍟",country:"korea",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"간단하게 집어먹기 좋아요."},
+  {name:"라멘",emoji:"🍜",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻한 국물과 면이 어울리는 대표 메뉴예요."},
+  {name:"타코야키",emoji:"🐙",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"한입 크기로 간편하게 즐겨요."},
+  {name:"오코노미야키",emoji:"🥞",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"푸짐하고 고소한 일본식 야식이에요."},
+  {name:"규동",emoji:"🍚",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"든든하게 배를 채우기 좋아요."},
+  {name:"야키소바",emoji:"🍝",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"짭짤한 볶음면이 야식과 잘 어울려요."},
+  {name:"가라아게",emoji:"🍗",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 일본식 닭튀김이에요."},
+  {name:"교자",emoji:"🥟",country:"japan",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"한입씩 먹기 좋은 만두 야식이에요."},
+  {name:"우동",emoji:"🍲",country:"japan",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 편안한 국물 메뉴예요."},
+  {name:"카레라이스",emoji:"🍛",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"부드럽고 진한 맛으로 든든해요."},
+  {name:"오야코동",emoji:"🍳",country:"japan",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"닭고기와 계란이 부드럽게 어울려요."},
+  {name:"텐동",emoji:"🍤",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭한 튀김을 밥과 함께 즐겨요."},
+  {name:"돈카츠",emoji:"🥩",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭하고 든든한 메뉴예요."},
+  {name:"야키토리",emoji:"🍢",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"꼬치로 간편하게 즐기기 좋아요."},
+  {name:"소바",emoji:"🍜",country:"japan",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍고 깔끔하게 먹고 싶을 때 좋아요."},
+  {name:"오니기리",emoji:"🍙",country:"japan",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"간단하게 먹기 좋은 일본식 주먹밥이에요."},
+  {name:"미소라멘",emoji:"🍜",country:"japan",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"구수한 국물이 편안해요."},
+  {name:"츠케멘",emoji:"🍜",country:"japan",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진한 소스에 면을 찍어 먹는 메뉴예요."},
+  {name:"에비후라이",emoji:"🍤",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 새우튀김이 매력적이에요."},
+  {name:"멘치카츠",emoji:"🥩",country:"japan",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고기와 튀김의 조합으로 든든해요."},
+  {name:"푸딩",emoji:"🍮",country:"japan",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤한 디저트 야식으로 좋아요."},
+  {name:"피자",emoji:"🍕",country:"usa",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"나눠 먹기 좋은 대표 야식이에요."},
+  {name:"치즈버거",emoji:"🍔",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"빠르고 든든하게 먹기 좋아요."},
+  {name:"치킨 윙",emoji:"🍗",country:"usa",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"매콤하고 짭짤한 야식이에요."},
+  {name:"나초",emoji:"🧀",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"영화 보면서 간단하게 먹기 좋아요."},
+  {name:"핫도그",emoji:"🌭",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"간편하면서도 든든해요."},
+  {name:"맥앤치즈",emoji:"🧀",country:"usa",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"고소하고 진한 맛이 좋아요."},
+  {name:"바비큐 립",emoji:"🍖",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"푸짐하고 진한 풍미를 즐길 수 있어요."},
+  {name:"칠리 프라이",emoji:"🍟",country:"usa",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"감자튀김에 매콤한 칠리를 더해요."},
+  {name:"치즈 프라이",emoji:"🍟",country:"usa",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"고소한 치즈와 감자의 조합이에요."},
+  {name:"팬케이크",emoji:"🥞",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하게 늦은 밤을 마무리해요."},
+  {name:"그릴드 치즈",emoji:"🥪",country:"usa",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"치즈가 녹은 따뜻한 샌드위치예요."},
+  {name:"버펄로 치킨",emoji:"🍗",country:"usa",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤매콤한 소스가 특징이에요."},
+  {name:"콘도그",emoji:"🌭",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 간식으로 좋아요."},
+  {name:"클램 차우더",emoji:"🍲",country:"usa",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 부드러운 수프예요."},
+  {name:"미트볼 서브",emoji:"🥪",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"든든한 샌드위치 야식이에요."},
+  {name:"브라우니",emoji:"🍫",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"진한 초콜릿 디저트예요."},
+  {name:"도넛",emoji:"🍩",country:"usa",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"가볍게 달달한 야식으로 좋아요."},
+  {name:"밀크셰이크",emoji:"🥤",country:"usa",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 시원하게 즐겨요."},
+  {name:"애플파이",emoji:"🥧",country:"usa",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 따뜻한 디저트예요."},
+  {name:"퀘사디야",emoji:"🫓",country:"usa",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"치즈와 토르티야로 든든해요."},
+  {name:"마르게리타 피자",emoji:"🍕",country:"italy",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"심플한 토마토와 치즈의 조합이에요."},
+  {name:"카르보나라",emoji:"🍝",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"부드럽고 진한 맛이 매력적이에요."},
+  {name:"라자냐",emoji:"🥘",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"층층이 쌓인 풍부한 맛으로 든든해요."},
+  {name:"아란치니",emoji:"🍘",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 이탈리아식 주먹밥이에요."},
+  {name:"티라미수",emoji:"🍰",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 디저트 야식으로 좋아요."},
+  {name:"페퍼로니 피자",emoji:"🍕",country:"italy",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"짭짤하고 진한 피자 맛을 즐겨요."},
+  {name:"볼로네제 파스타",emoji:"🍝",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고기소스가 진해 든든해요."},
+  {name:"알리오 올리오",emoji:"🍝",country:"italy",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"마늘과 올리브오일의 깔끔한 맛이에요."},
+  {name:"라비올리",emoji:"🥟",country:"italy",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"속이 꽉 찬 이탈리아식 파스타예요."},
+  {name:"뇨키",emoji:"🥔",country:"italy",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 쫀득한 식감이 특징이에요."},
+  {name:"브루스케타",emoji:"🥖",country:"italy",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"바삭한 빵 위에 토핑을 올려 먹어요."},
+  {name:"판제로티",emoji:"🥟",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"피자 속을 접어 튀긴 간식이에요."},
+  {name:"포카치아",emoji:"🥖",country:"italy",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"담백한 빵 야식으로 좋아요."},
+  {name:"파니니",emoji:"🥪",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻하게 눌러 구운 샌드위치예요."},
+  {name:"젤라토",emoji:"🍨",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"부드럽고 달콤한 디저트예요."},
+  {name:"카놀리",emoji:"🥐",country:"italy",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 껍질과 달콤한 크림이 어울려요."},
+  {name:"판나코타",emoji:"🍮",country:"italy",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드러운 이탈리아 디저트예요."},
+  {name:"리조또",emoji:"🍚",country:"italy",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"크리미하고 따뜻한 한 끼예요."},
+  {name:"라비올리 토마토소스",emoji:"🥟",country:"italy",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"풍미가 깊고 든든해요."},
+  {name:"파스타 샐러드",emoji:"🥗",country:"italy",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍게 즐기기 좋아요."},
+  {name:"타코",emoji:"🌮",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"매콤하고 다채로운 대표 야식이에요."},
+  {name:"케사디야",emoji:"🫓",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"치즈와 토르티야가 든든해요."},
+  {name:"나초 & 살사",emoji:"🧀",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"간단하게 집어먹기 좋아요."},
+  {name:"부리토",emoji:"🌯",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"한 끼로 충분히 든든해요."},
+  {name:"추로스",emoji:"🥨",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤한 디저트 야식이에요."},
+  {name:"엔칠라다",emoji:"🌯",country:"mexico",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"소스와 치즈가 풍부한 메뉴예요."},
+  {name:"퀘사비리아",emoji:"🌮",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"치즈가 가득한 진한 타코예요."},
+  {name:"과카몰리",emoji:"🥑",country:"mexico",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"아보카도의 고소함을 가볍게 즐겨요."},
+  {name:"엘로테",emoji:"🌽",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"옥수수에 풍미를 더한 스트리트 푸드예요."},
+  {name:"토스타다",emoji:"🌮",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 토르티야 위에 토핑을 올려요."},
+  {name:"치미창가",emoji:"🌯",country:"mexico",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭하게 튀긴 부리토 스타일 메뉴예요."},
+  {name:"몰레 치킨",emoji:"🍗",country:"mexico",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진한 소스와 치킨의 조합이에요."},
+  {name:"소페스",emoji:"🫓",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"작은 토르티야 위에 다양한 토핑을 올려요."},
+  {name:"타말레스",emoji:"🌽",country:"mexico",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"옥수수 반죽으로 만든 따뜻한 음식이에요."},
+  {name:"멕시칸 라이스",emoji:"🍚",country:"mexico",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향긋하고 든든한 볶음밥 스타일이에요."},
+  {name:"플라우타",emoji:"🌯",country:"mexico",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하게 튀긴 롤 형태의 간식이에요."},
+  {name:"초코 추로스",emoji:"🍫",country:"mexico",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"달콤한 초콜릿 풍미의 디저트예요."},
+  {name:"소파 데 토르티야",emoji:"🍲",country:"mexico",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 매콤한 수프예요."},
+  {name:"칸디드 페퍼",emoji:"🌶️",country:"mexico",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"매운맛을 즐기고 싶을 때 좋아요."},
+  {name:"멕시칸 핫도그",emoji:"🌭",country:"mexico",styles:["western", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"토핑이 풍부한 길거리 야식이에요."},
+  {name:"딤섬",emoji:"🥟",country:"china",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"다양하게 골라 먹는 재미가 있어요."},
+  {name:"볶음면",emoji:"🍜",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"짭짤하고 볶은 풍미가 강해요."},
+  {name:"탕수육",emoji:"🥩",country:"china",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 달콤새콤해요."},
+  {name:"샤오롱바오",emoji:"🥟",country:"china",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻한 육즙을 즐길 수 있어요."},
+  {name:"마라샹궈",emoji:"🌶️",country:"china",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"얼얼하고 매콤한 맛이 당길 때 좋아요."},
+  {name:"마라탕",emoji:"🌶️",country:"china",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"재료를 골라 먹는 재미가 있어요."},
+  {name:"꿔바로우",emoji:"🥩",country:"china",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"새콤달콤하고 바삭한 메뉴예요."},
+  {name:"볶음밥",emoji:"🍚",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고슬고슬하고 든든해요."},
+  {name:"짜장면",emoji:"🍜",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진한 춘장 소스와 면의 조합이에요."},
+  {name:"짬뽕",emoji:"🍜",country:"china",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"얼큰한 국물과 해산물이 어울려요."},
+  {name:"군만두",emoji:"🥟",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"바삭한 만두피가 매력적이에요."},
+  {name:"완탕면",emoji:"🍜",country:"china",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"깔끔한 국물과 만두가 잘 어울려요."},
+  {name:"차오미엔",emoji:"🍜",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"중국식 볶음면으로 든든해요."},
+  {name:"양꼬치",emoji:"🍢",country:"china",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"향신료 풍미가 강한 꼬치 야식이에요."},
+  {name:"유린기",emoji:"🍗",country:"china",styles:["korean", "calm"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 닭고기와 새콤한 소스가 좋아요."},
+  {name:"동파육",emoji:"🍖",country:"china",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"부드러운 돼지고기를 진한 소스로 즐겨요."},
+  {name:"춘권",emoji:"🥠",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"바삭하게 즐기는 대표 간식이에요."},
+  {name:"월병",emoji:"🥮",country:"china",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤한 중국식 디저트예요."},
+  {name:"에그타르트",emoji:"🥧",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"부드럽고 달콤한 디저트예요."},
+  {name:"탕후루",emoji:"🍓",country:"china",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 설탕 코팅의 과일 간식이에요."},
+  {name:"팟타이",emoji:"🍜",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"새콤달콤하고 고소한 볶음면이에요."},
+  {name:"똠얌",emoji:"🍲",country:"thailand",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤하고 매콤한 국물이 입맛을 깨워요."},
+  {name:"카오팟",emoji:"🍚",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"편하게 즐길 수 있는 태국식 볶음밥이에요."},
+  {name:"망고 찹쌀밥",emoji:"🥭",country:"thailand",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 태국식 디저트예요."},
+  {name:"팟카오파오",emoji:"🍳",country:"thailand",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바질과 매콤한 고기가 잘 어울려요."},
+  {name:"그린커리",emoji:"🍛",country:"thailand",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향긋하고 크리미한 커리예요."},
+  {name:"레드커리",emoji:"🍛",country:"thailand",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"진하고 매콤한 소스가 특징이에요."},
+  {name:"뿌팟퐁커리",emoji:"🦀",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"게와 커리의 풍부한 조합이에요."},
+  {name:"쏨땀",emoji:"🥗",country:"thailand",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"새콤매콤하게 입맛을 살려줘요."},
+  {name:"카오만까이",emoji:"🍚",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"닭고기와 향긋한 밥이 잘 어울려요."},
+  {name:"무삥",emoji:"🍢",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤짭짤한 돼지고기 꼬치예요."},
+  {name:"싸테",emoji:"🍢",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"구운 꼬치에 소스를 곁들여요."},
+  {name:"로띠",emoji:"🥞",country:"thailand",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 달콤한 길거리 간식이에요."},
+  {name:"망고 스무디",emoji:"🥭",country:"thailand",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 시원하게 즐겨요."},
+  {name:"코코넛 아이스크림",emoji:"🍨",country:"thailand",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"고소하고 시원한 디저트예요."},
+  {name:"카오니아오 무앙",emoji:"🥭",country:"thailand",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"망고와 찹쌀의 달콤한 조합이에요."},
+  {name:"팟씨유",emoji:"🍜",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"간장 풍미의 볶음면이에요."},
+  {name:"치킨 사테",emoji:"🍢",country:"thailand",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"향신료가 배인 구운 꼬치예요."},
+  {name:"똠카가이",emoji:"🍲",country:"thailand",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"코코넛 밀크의 부드러운 국물이에요."},
+  {name:"크리스피 포크",emoji:"🥩",country:"thailand",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭한 돼지고기가 든든해요."},
+  {name:"버터 치킨",emoji:"🍛",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향신료와 부드러운 소스가 어울려요."},
+  {name:"사모사",emoji:"🥟",country:"india",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"바삭한 껍질과 향신료 풍미가 좋아요."},
+  {name:"난 & 커리",emoji:"🫓",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻한 난과 진한 커리를 즐겨요."},
+  {name:"치킨 티카",emoji:"🍗",country:"india",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"향신료 풍미가 강한 구운 치킨이에요."},
+  {name:"망고 라씨",emoji:"🥭",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하고 부드러운 인도식 음료예요."},
+  {name:"비리야니",emoji:"🍚",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향긋한 향신료 밥으로 아주 든든해요."},
+  {name:"티카 마살라",emoji:"🍛",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"진하고 크리미한 소스가 특징이에요."},
+  {name:"팔락 파니르",emoji:"🥬",country:"india",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"시금치와 치즈가 어울려요."},
+  {name:"알루 고비",emoji:"🥔",country:"india",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"감자와 콜리플라워를 향신료와 볶아요."},
+  {name:"파코라",emoji:"🥦",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 인도식 튀김 간식이에요."},
+  {name:"바다 파브",emoji:"🥪",country:"india",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"매콤한 감자 패티 샌드위치예요."},
+  {name:"도사",emoji:"🥞",country:"india",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"얇고 바삭한 인도식 팬케이크예요."},
+  {name:"차파티",emoji:"🫓",country:"india",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"담백한 빵과 커리를 함께 먹어요."},
+  {name:"치킨 코르마",emoji:"🍛",country:"india",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 고소한 커리예요."},
+  {name:"탄두리 치킨",emoji:"🍗",country:"india",styles:["spicy", "korean", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"향신료 풍미가 강한 구운 치킨이에요."},
+  {name:"굴랍 자문",emoji:"🍡",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 인도식 디저트예요."},
+  {name:"잘레비",emoji:"🥨",country:"india",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하고 달콤한 디저트예요."},
+  {name:"라스굴라",emoji:"🍡",country:"india",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드러운 시럽 디저트예요."},
+  {name:"마살라 차이",emoji:"☕",country:"india",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"향신료가 들어간 따뜻한 차예요."},
+  {name:"파니 푸리",emoji:"🥟",country:"india",styles:["spicy", "korean", "snack"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"한입에 즐기는 바삭한 간식이에요."},
+  {name:"반미",emoji:"🥖",country:"vietnam",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"바삭한 빵과 다양한 속재료가 어울려요."},
+  {name:"쌀국수",emoji:"🍜",country:"vietnam",styles:["korean", "calm"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻하고 깔끔한 국물 야식이에요."},
+  {name:"분짜",emoji:"🍜",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"새콤달콤한 소스와 고기가 잘 어울려요."},
+  {name:"월남쌈",emoji:"🥬",country:"vietnam",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍게 여러 재료를 즐기기 좋아요."},
+  {name:"반쎄오",emoji:"🥞",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 베트남식 부침 요리예요."},
+  {name:"분보후에",emoji:"🍜",country:"vietnam",styles:["spicy", "korean", "snack"],moods:["stress", "happy"],budgets:["mid", "high"],reason:"매콤한 국물과 면이 특징이에요."},
+  {name:"분팃느엉",emoji:"🍜",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"구운 고기와 쌀국수의 조합이에요."},
+  {name:"껌땀",emoji:"🍚",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"돼지고기와 밥으로 든든해요."},
+  {name:"고이꾸온",emoji:"🥬",country:"vietnam",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"신선한 재료를 가볍게 즐겨요."},
+  {name:"반꾸온",emoji:"🥞",country:"vietnam",styles:["calm", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"얇은 쌀피에 속을 넣은 메뉴예요."},
+  {name:"짜조",emoji:"🥟",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭하게 튀긴 베트남식 스프링롤이에요."},
+  {name:"닭고기 쌀국수",emoji:"🍜",country:"vietnam",styles:["calm", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"담백한 국물로 편하게 먹어요."},
+  {name:"새우 반미",emoji:"🥖",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"바삭한 빵에 새우를 더해요."},
+  {name:"코코넛 커리",emoji:"🍛",country:"vietnam",styles:["spicy", "korean", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 향긋한 커리예요."},
+  {name:"베트남식 볶음밥",emoji:"🍚",country:"vietnam",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고슬고슬한 밥으로 든든해요."},
+  {name:"연유 커피",emoji:"☕",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하고 진한 베트남식 커피예요."},
+  {name:"에그커피",emoji:"☕",country:"vietnam",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드럽고 달콤한 커피 디저트예요."},
+  {name:"체",emoji:"🥣",country:"vietnam",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤한 베트남식 디저트예요."},
+  {name:"망고 스무디",emoji:"🥭",country:"vietnam",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"달콤하고 시원하게 즐겨요."},
+  {name:"바인플랑",emoji:"🍮",country:"vietnam",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"부드러운 베트남식 디저트예요."},
+  {name:"피시 앤 칩스",emoji:"🐟",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"영국을 대표하는 든든한 메뉴예요."},
+  {name:"소시지 롤",emoji:"🥐",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"간단하게 집어먹기 좋은 간식이에요."},
+  {name:"재킷 포테이토",emoji:"🥔",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"따뜻하고 든든한 감자 메뉴예요."},
+  {name:"셰퍼드 파이",emoji:"🥧",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"포근하고 든든한 영국식 메뉴예요."},
+  {name:"스콘",emoji:"🥐",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["low", "mid"],reason:"차와 함께 즐기기 좋은 간식이에요."},
+  {name:"뱅어스 앤 매시",emoji:"🌭",country:"uk",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"소시지와 으깬 감자의 조합이에요."},
+  {name:"코티지 파이",emoji:"🥧",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"고기와 감자를 함께 즐겨요."},
+  {name:"콘ish 페이스트",emoji:"🥟",country:"uk",styles:["korean", "calm"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"든든한 영국식 페이스트리예요."},
+  {name:"토드 인 더 홀",emoji:"🥞",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"소시지와 반죽을 함께 구운 메뉴예요."},
+  {name:"웰시 레어빗",emoji:"🧀",country:"uk",styles:["western", "snack"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"치즈 토핑이 올라간 영국식 토스트예요."},
+  {name:"플라우맨즈 런치",emoji:"🥪",country:"uk",styles:["calm", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"치즈와 빵을 가볍게 즐겨요."},
+  {name:"크럼펫",emoji:"🥞",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"버터와 함께 먹는 영국식 간식이에요."},
+  {name:"버터드 티케이크",emoji:"🥐",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"달콤하고 부드러운 베이커리예요."},
+  {name:"브레드 앤 버터 푸딩",emoji:"🍮",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["low", "mid"],reason:"따뜻하고 달콤한 디저트예요."},
+  {name:"트라이플",emoji:"🍰",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"층층이 쌓인 달콤한 디저트예요."},
+  {name:"이튼 메스",emoji:"🍓",country:"uk",styles:["snack", "western"],moods:["happy", "hungry"],budgets:["mid", "high"],reason:"딸기와 크림을 가볍게 즐겨요."},
+  {name:"애플 크럼블",emoji:"🍎",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"따뜻한 사과 디저트예요."},
+  {name:"스카치 에그",emoji:"🥚",country:"uk",styles:["snack", "western"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"계란을 고기와 튀겨 만든 간식이에요."},
+  {name:"파스티",emoji:"🥟",country:"uk",styles:["western", "snack"],moods:["hungry", "happy"],budgets:["mid", "high"],reason:"속이 꽉 찬 영국식 파이예요."},
+  {name:"잉글리시 머핀",emoji:"🥯",country:"uk",styles:["snack", "western"],moods:["calm", "hungry"],budgets:["mid", "high"],reason:"가볍게 토핑과 함께 즐겨요."}
+];
+
+function recommend(){
+  const mood=document.getElementById("mood").value;
+  const style=document.getElementById("style").value;
+  const budget=document.getElementById("budget").value;
+  const country=document.getElementById("selectedCountry").value;
+
+  const countryFoods = foods.filter(f=>f.country===country);
+  const budgetMap = {
+    "1000":"low",
+    "10000":"mid",
+    "100000":"high",
+    "1000000":"high",
+    "10000000":"high",
+    "100000000":"high",
+    "1000000000":"high",
+    "etc":"high"
+  };
+  const budgetTier = budgetMap[budget] || "high";
+  const budgetFoods = countryFoods.filter(f=>f.budgets.includes(budgetTier));
+  const pool = budgetFoods.length ? budgetFoods : countryFoods;
+
+  let scored=pool.map(f=>{
+    let score=0;
+    if(f.moods.includes(mood)) score+=3;
+    if(f.styles.includes(style)) score+=4;
+    if(f.budgets.includes(budgetTier)) score+=5;
+    return {...f,score};
+  }).sort((a,b)=>b.score-a.score);
+
+  const topScore=scored[0].score;
+  const candidates=scored.filter(f=>f.score===topScore);
+  const pick=candidates[Math.floor(Math.random()*candidates.length)];
+
+  const budgetNames={"1000":"1,000원","10000":"10,000원","100000":"100,000원","1000000":"1,000,000원","10000000":"10,000,000원","100000000":"100,000,000원","1000000000":"1,000,000,000원","etc":"그 이상"};
+  const countryNames={korea:"대한민국",japan:"일본",usa:"미국",italy:"이탈리아",mexico:"멕시코",china:"중국",thailand:"태국",india:"인도",vietnam:"베트남",uk:"영국"};
+  document.getElementById("food").textContent=pick.emoji;
+  document.getElementById("name").textContent=pick.name + " · " + countryNames[country];
+  document.getElementById("reason").textContent=pick.reason + " · 선택 예산: " + budgetNames[budget];
+  document.getElementById("tags").innerHTML =
+    `<span class="tag">${budget==="low"?"가성비":budget==="mid"?"적당한 가격":"푸짐하게"}</span>
+     <span class="tag">${style==="spicy"?"매콤":style==="korean"?"한식":style==="western"?"양식":"간단하게"}</span>
+     <span class="tag">오늘의 추천</span>`;
+
+  const alternatives=scored.filter(f=>f.name!==pick.name).slice(0,3).map(f=>f.name).join(" · ");
+  document.getElementById("alt").textContent="다른 후보: "+alternatives;
+  document.getElementById("result").classList.add("show");
+}
+
+</script>
+</body>
+</html>
